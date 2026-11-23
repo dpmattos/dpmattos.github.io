@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<title>ChargeLog · Tesla sign-in</title>
+<style>
+  body { background:#0d0f12; color:#e6e8eb; font:15px/1.5 "IBM Plex Mono", ui-monospace, monospace; margin:0; padding:24px 16px; }
+  main { max-width:640px; margin:0 auto; }
+  code { display:block; word-break:break-all; background:#161a1f; border:1px solid #2a3038; padding:12px; margin:8px 0 16px; }
+  .err { color:#ff6b6b; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ChargeLog · Tesla sign-in</h1>
+  <div id="out">No authorization code in this address.</div>
+</main>
+<script>
+  // Shows the OAuth result only; nothing is sent or stored.
+  const p = new URLSearchParams(location.search), out = document.getElementById("out");
+  const show = (label, v) => { const h = document.createElement("p"); h.textContent = label;
+    const c = document.createElement("code"); c.textContent = v; out.append(h, c); };
+  if (p.get("error")) { out.className = "err"; out.textContent = "Tesla returned an error: " + p.get("error") + (p.get("error_description") ? " (" + p.get("error_description") + ")" : ""); }
+  else if (p.get("code")) { out.textContent = ""; show("Authorization code (single use, expires in minutes):", p.get("code")); if (p.get("state")) show("State:", p.get("state")); }
+</script>
+</body>
+</html>
